@@ -68,7 +68,7 @@ var (
 	writeTimeout int    = 500
 	readTimeout  int    = 500
 	printUrls    bool   = false
-	baseUrl      string = "http://localhost:8080/databases/Bench"
+	baseUrl      string = "http://10.0.0.61:8080/databases/DB1"
 )
 
 var readThroughput int64
@@ -91,7 +91,7 @@ func readRandomDocs(opts BenchOpts) {
 			nextUrl: func() string {
 				var id int64
 				id = rand.Int63n(3594302)
-				return baseUrl + "/docs?id=disks/" + strconv.FormatInt(id, 10)
+				return baseUrl + "/docs/mydocs/1?ignore="+ strconv.FormatInt(id, 10)
 			},
 			method:             "GET",
 			expectedStatucCode: 200,
@@ -146,8 +146,9 @@ func main() {
 
 	registerToHandleConsoleInterrupt(startTime)
 
-	//readRandomDocs(BenchOpts{reads: 1000 * 1000, clients: 200})
-	writeNewDocs(BenchOpts{reads: 100 * 1000, clients: 200})
+	readRandomDocs	(BenchOpts	{reads: 	1000 * 1000, clients: 200})
+	//writeNewDocs	(BenchOpts	{reads: 	 300 * 1000, clients: 200})
+
 	fmt.Println("Waiting for results from ops...")
 	done.Wait()
 	printResults(startTime)
